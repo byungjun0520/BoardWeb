@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--  
+ lazy-init 속성 : 빈이 사용되는 시점에 객체를 생성하도록 하는 속성
+ true : 스프링 컨테이너는 해당 빈을 미리생성하지 않고 클라이언트에 요청이
+           있는 시점에서 생성함
+ false : 등록할때 클라이언트 요청이 있기 전에 미리 생성됨
+-->
+<!-- init-method="initMethod" 
+destroy-method="destoryMethod" 
+lazy-init="true" -->
+
+    <!--
+       생성자 인젝션
+       <constructor-arg  index="0"  ref="apple"></constructor-arg>
+       <constructor-arg  index="1" value="400000"></constructor-arg>
+ -->
+ 
+<!-- 
+<bean id="tv" class="polymorphism.SamsungTV"  
+p:speaker-ref="apple" p:price="300000"
+init-method="initMethod" destroy-method="destoryMethod"  scope="prototype">
+  -->
+ <!--      <property name="speaker" ref="apple"></property>
+      <property name="price" value="250000"></property> 
+  -->
+  <!-- </bean> -->
+<!-- 
+<bean id="sony" class="polymorphism.SonySpeaker" />
+
+<bean id="apple" class="polymorphism.AppleSpeaker" />
+
+ -->
+ <!-- 
+ <bean id="collectionBean" class="com.global.ioc.injection.CollectionBean">
+      <property name="addressList">
+             <list>
+                    <value>서울 탁별시 영당포구 당산동 당산빌딩 </value>        
+                     <value>경상남도 거제군 통영  외도</value>
+                     <value>서울 탁별시 강남구 강남길 45 -1</value>
+             </list>
+     </property>
+ </bean>
+  -->
+ <!-- 
+ <bean id="collectionBean" class="com.global.ioc.injection.CollectionBean">
+      <property name="addressList">
+             <set value-type="java.lang.String">
+                    <value>인천 광역시 </value>        
+                     <value>서울 특별시</value>
+                     <value>서울 탁별시 강남구 강남길 45 -1</value>
+             </set>
+     </property>
+ </bean>
+  -->
+  
+  <!-- map
+ <bean id="collectionBean" class="com.global.ioc.injection.CollectionBean">
+      <property name="addressList">
+           <map>
+                <entry>
+                     <key>
+                        <value>인길동</value>
+                     </key>
+                    <value>인천 광역시 </value>        
+                 </entry>    
+                     
+                     <entry>
+                     <key>
+                     <value>서길동</value>
+                     </key>
+                     <value>서울 특별시</value>
+                     </entry>
+                     
+                     <entry>
+                     <key>
+                     <value>강길동</value>
+                     </key>
+                     <value>서울 탁별시 강남구 강남길 45 -1</value>
+                     </entry>
+           </map>
+           </property>
+            </bean>
+            -->
+            
+            <bean id="collectionBean" class="com.global.ioc.injection.CollectionBean">
+      <property name="addressList">
+           <props>
+               <prop key="인길동">인천광역시</prop>
+           <prop key="서길동">서울특별시</prop>
+           <prop key="강길동">서울 강남</prop>
+           </props>
+           
+           </property>
+            </bean>
+     
+ 
+ </beans>
