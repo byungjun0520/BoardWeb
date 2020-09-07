@@ -99,9 +99,13 @@ init-method="initMethod" destroy-method="destoryMethod"  scope="prototype">
            
            </property>
             </bean> -->
-     <context:component-scan base-package="polymorphism"></context:component-scan>
-      <bean class="polymorphism.SonySpeaker"></bean>
+     <!-- <context:component-scan base-package="polymorphism"></context:component-scan> -->
+     
+      <!-- <bean class="polymorphism.SonySpeaker"></bean> -->
      <!--  <bean class="polymorphism.AppleSpeaker"></bean> -->
+     
+     <context:component-scan base-package="com.global.biz"></context:component-scan>
+     
      
      <!-- DataSource 설정 -->
      
