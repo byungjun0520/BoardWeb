@@ -3,8 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
 
 <!--  
  lazy-init 속성 : 빈이 사용되는 시점에 객체를 생성하도록 하는 속성
@@ -118,15 +120,123 @@ init-method="initMethod" destroy-method="destoryMethod"  scope="prototype">
      <property name="password" value="tiger"></property>
      </bean>
      
-     <bean id="userService" class="com.global.biz.user.impl.UserServiceImpl">
+     <!-- <bean id="userService" class="com.global.biz.user.impl.UserServiceImpl">
          <property name="userDAO" ref="userDAO" />
      </bean>
      
-     <bean id="userDAO" class="com.global.biz.user.impl.UserDAO" />
+     <bean id="userDAO" class="com.global.biz.user.impl.UserDAO" /> -->
      
+     <!-- <bean id="log" class="com.global.biz.comon.LogAdvice"></bean>
+     <aop:config>
+            <aop:pointcut expression="execution(* com.global.biz..*Impl.*(..))" id="allPointcut" />
+            <aop:aspect ref="log">
+                  <aop:before method="printLog" pointcut-ref="allPointcut"/>
+            </aop:aspect>     
+     </aop:config> -->
      
+    <!--  <bean id="log" class="com.global.biz.comon.Log4jAdvice"></bean>
+     <aop:config>
+        <aop:pointcut expression="execution(* com.global.biz..*Impl.*(..))" id="allPointcut"/>
+        <aop:aspect ref="log">
+             <aop:before method="printLogging" pointcut-ref="allPointcut"/>
+        </aop:aspect>
+     </aop:config> -->
+     <!--
+      * com.global.biz..*Impl.*(..)
      
+     * : 리턴타입
+     com.global.biz..  : 패키지 경로
+     *Impl  : 클래스명
      
+     *(..)   : 메소드명 및 매개변수
+     get*(..) : get 메소드명 및 매개변수
+      -->
+     <!-- <bean id="log" class="com.global.biz.comon.LogAdvice"></bean>
+     <aop:config> -->
+           <!--  <aop:pointcut expression="execution(* com.global.biz..*Impl.*(..))" 
+            id="allPointcut" />
+           
+            <aop:pointcut expression="execution(* com.global.biz..*Impl.get*(..))" 
+            id="getPointcut" />
+              -->
+            <!--  <aop:aspect ref="log">
+                  <aop:before method="printLog" pointcut-ref="allPointcut"/>
+            </aop:aspect>   
+            
+             <aop:aspect ref="log">
+                  <aop:before method="printLog" pointcut-ref="getPointcut"/>
+            </aop:aspect>  
+            -->
+         <!--    
+            <aop:pointcut expression="execution(* com.global.biz..*Impl.*(..))" 
+            id="allPointcut"/>
+            <aop:pointcut expression="execution(* com.global.biz..*Impl.get*(..))" 
+            id="getPointcut"/>
+            
+            <aop:aspect ref="log">
+                  <aop:after method="printLog" pointcut-ref="getPointcut"/>
+            </aop:aspect>
+             --> 
+          <!--     <aop:pointcut expression="execution(* com.global.biz..*Impl.*(..))" 
+            id="allPointcut"/> -->
+           <!-- 
+           <aop:pointcut expression="execution(* com.global.biz..*Impl.get*(..))" 
+            id="getPointcut"/>
+             -->
+         <!--    <aop:aspect ref="log">
+                  <aop:before method="printLog" pointcut-ref="allPointcut"/>
+            </aop:aspect>
+             
+             
+     </aop:config> -->
      
+     <bean id="before" class="com.global.biz.comon.BeforeAdvice"> </bean>
      
- </beans>
+   <!--  <aop:config>
+     
+         <aop:pointcut expression="execution(* com.global.biz..*Impl.*(..))" id="allPointcut"/>
+     
+         <aop:aspect ref="before">
+             <aop:before method="beforeLog" pointcut-ref="allPointcut"/>
+         </aop:aspect>
+     </aop:config>
+      -->
+     <bean id="afterReturning" class="com.global.biz.comon.AfterReturningAdvice">
+      </bean>
+     <aop:config>
+        <aop:pointcut expression="execution(* com.global.biz..*Impl.get*(..))" id="getPointcut"/>
+        <aop:aspect ref="afterReturning">
+           <aop:after-returning method="afterLog" pointcut-ref="getPointcut"/>
+        </aop:aspect>
+     
+     </aop:config>
+      
+      <bean id="afterThrowing" class="com.global.biz.comon.AfterThrowingAdvice"></bean>
+      <bean id="after" class="com.global.biz.comon.AfterAdvice"></bean>
+      <aop:config>
+      
+      <aop:pointcut expression="execution(* com.global.biz..*Impl.*(..))" 
+      id="allPointcut"/>
+      
+      <aop:aspect ref="afterThrowing">
+         <aop:after-throwing method="exceptionLog" 
+         pointcut-ref="allPointcut"/>
+      </aop:aspect>
+      
+      <aop:aspect ref="after">
+            <aop:after method="finallyLog" pointcut-ref="allPointcut"/>
+      </aop:aspect>
+      
+      
+      </aop:config>
+      
+      <bean id="around" class="com.global.biz.comon.AroundAdvice"></bean>
+      
+       <aop:config>
+          <aop:pointcut expression="execution(* com.global.biz..*Impl.*(..))" id="allPointcut"/>
+           <aop:aspect ref="around">
+              <aop:around method="aroundLog" pointcut-ref="allPointcut"/>
+           </aop:aspect>
+       </aop:config>
+      
+     </beans>
