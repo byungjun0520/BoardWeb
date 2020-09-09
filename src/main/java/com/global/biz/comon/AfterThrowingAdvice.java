@@ -1,9 +1,23 @@
 package com.global.biz.comon;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Service;
+
+
+@Service
+@Aspect
 
 public class AfterThrowingAdvice {
 
+	@Pointcut("execution(* com.global.biz..*Impl.*(..))")
+	public void allPointcut() {
+		
+	}
+		
+	@AfterThrowing(pointcut="allPointcut()", throwing = "exceptObj")
 	public void exceptionLog(JoinPoint jp, Exception exceptObj) {
 		//System.out.println("[예외 처리] 비즈니스 로직 수행 중 예외 발생.....");
 		// JoinPoint 를 매개변수로 받고 발생한 예외 객체를 바인딩 변수를 통해서 받음
