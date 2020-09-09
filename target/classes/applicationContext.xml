@@ -190,45 +190,46 @@ init-method="initMethod" destroy-method="destoryMethod"  scope="prototype">
              
      </aop:config> -->
      
-     <bean id="before" class="com.global.biz.comon.BeforeAdvice"> </bean>
+    <!--  <bean id="before" class="com.global.biz.comon.BeforeAdvice"> </bean>
      
-   <!--  <aop:config>
+    <aop:config>
      
          <aop:pointcut expression="execution(* com.global.biz..*Impl.*(..))" id="allPointcut"/>
      
          <aop:aspect ref="before">
              <aop:before method="beforeLog" pointcut-ref="allPointcut"/>
          </aop:aspect>
-     </aop:config>
-      -->
-     <bean id="afterReturning" class="com.global.biz.comon.AfterReturningAdvice">
+     </aop:config> -->
+     
+   <!--   <bean id="afterReturning" class="com.global.biz.comon.AfterReturningAdvice">
       </bean>
      <aop:config>
         <aop:pointcut expression="execution(* com.global.biz..*Impl.get*(..))" id="getPointcut"/>
         <aop:aspect ref="afterReturning">
-           <aop:after-returning method="afterLog" pointcut-ref="getPointcut"/>
+           <aop:after-returning method="afterLog" pointcut-ref="getPointcut" returning="returnObj"/>
         </aop:aspect>
-     
-     </aop:config>
       
-      <bean id="afterThrowing" class="com.global.biz.comon.AfterThrowingAdvice"></bean>
-      <bean id="after" class="com.global.biz.comon.AfterAdvice"></bean>
-      <aop:config>
+     </aop:config>-->
+     
+      
+     <!--  <bean id="afterThrowing" class="com.global.biz.comon.AfterThrowingAdvice"></bean> -->
+      <!-- <bean id="after" class="com.global.biz.comon.AfterAdvice"></bean> -->
+      <!-- <aop:config>
       
       <aop:pointcut expression="execution(* com.global.biz..*Impl.*(..))" 
       id="allPointcut"/>
       
       <aop:aspect ref="afterThrowing">
-         <aop:after-throwing method="exceptionLog" 
+         <aop:after-throwing method="exceptionLog" throwing="exceptObj"
          pointcut-ref="allPointcut"/>
       </aop:aspect>
-      
-      <aop:aspect ref="after">
+       -->
+    <!--   <aop:aspect ref="after">
             <aop:after method="finallyLog" pointcut-ref="allPointcut"/>
       </aop:aspect>
+     -->  
       
-      
-      </aop:config>
+    <!--   </aop:config> -->
       
       <bean id="around" class="com.global.biz.comon.AroundAdvice"></bean>
       
