@@ -114,6 +114,8 @@ init-method="initMethod" destroy-method="destoryMethod"  scope="prototype">
      
      <!-- DataSource 설정 -->
      
+     <context:property-placeholder location="classpath:config/database.properties"/>
+     
      <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
      destroy-method="close">
      
