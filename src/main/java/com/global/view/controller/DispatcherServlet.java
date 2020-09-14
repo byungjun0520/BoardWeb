@@ -14,17 +14,25 @@ import com.global.biz.board.impl.BoardDAO;
 import com.global.biz.user.UserVO;
 import com.global.biz.user.impl.UserDAO;
 
-/**
- * Servlet implementation class DispatcherServlet
- */
+
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public DispatcherServlet() {
-        super();
-       
-    }
-
+    
+	private HandlerMapping handlerMapping;
+	private ViewResolver viewResolver;
+	
+	
+	@Override
+	public void init() throws ServletException {
+	
+	handlerMapping = new HandlerMapping();
+	viewResolver = new ViewResolver();
+	viewResolver.setPrefix("./");
+	viewResolver.setSuffix(".jsp");
+	
+	}
+      
+    
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -45,11 +53,31 @@ public class DispatcherServlet extends HttpServlet {
 		// 1. 사용자의 요청 경로 정보추출
 		String uri = request.getRequestURI();
 		String path = uri.substring(uri.lastIndexOf("/"));
-		System.out.println(path);
+		//System.out.println(path);
 		
 		// 2. 사용자의 요청 경로에 따라 적절히 분기 처리해야함
 		
+		// 2. HandlerMapping을 통해 path에 해당하는 controller를 검색함
+		Controller ctrl = handlerMapping.getController(path);
+		
+		// 3. 검색한 controller 를 실행함
+		String viewName = ctrl.handleRequest(request, response);
+		
+		// 4. ViewResolver를 통해 viewName에 해당하는 화면을 검색함
+		
+		String view = null;
+		if(!viewName.contains(".do")) {
+			view = viewResolver.getView(viewName);
+		}else {
+			view = viewName;
+		}
+		// 5 . 검색된 화면으로 이동함
+		response.sendRedirect(view);
+		
+		
+		/*
 		if(path.equals("/login.do")) {
+		
 			System.out.println("로그인 처리");
 			//1. 사용자 입력 정보를 추출함
 			  String id = request.getParameter("id");
@@ -69,8 +97,9 @@ public class DispatcherServlet extends HttpServlet {
 			}else {
 				response.sendRedirect("login.jsp");
 			}
-
-		}else if(path.equals("/logout.do")){
+*/
+	/*
+	}else if(path.equals("/logout.do")){
 			System.out.println("로그아웃 처리");
 			  // 1. 브라우저와 연결된 세션 객체를 강제 종료
 		    
@@ -167,5 +196,12 @@ public class DispatcherServlet extends HttpServlet {
 			session.setAttribute("boardList", boardList);
 			response.sendRedirect("getBoardList.jsp");
 		}
+		*/
+		
+		
+		
+		
+		
+		
 	}
 }
