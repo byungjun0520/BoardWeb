@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.global.biz.board.BoardVO;
 import com.global.biz.board.impl.BoardDAO;
-import com.global.view.controller.Controller;
+
 
 public class DeleteBoardController implements Controller {
 
