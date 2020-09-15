@@ -30,7 +30,7 @@ public class GetBoardListController implements Controller {
 		*/
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("boardList", boardList); //Model 정보저장
-		mav.setViewName("getBoardList.jsp");// View 정보저장
+		mav.setViewName("getBoardList");// View 정보저장
 		return mav;
 		
 	}

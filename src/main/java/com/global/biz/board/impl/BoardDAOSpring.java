@@ -74,15 +74,5 @@ import com.global.biz.board.BoardVO;
 	}
 	
 	
-	
-	
-	
-	
 }
-
-
-
-
-
-
 

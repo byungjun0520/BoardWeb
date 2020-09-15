@@ -4,12 +4,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.global.view.controller.Controller;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+
 
 public class LogoutController implements Controller {
 
 	@Override
-	public String handleRequest(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) {
 		
 		System.out.println("로그 아웃 처리 ............");
 		
@@ -18,7 +21,10 @@ public class LogoutController implements Controller {
 		session.invalidate();
 		
 		// 화면 네비게이션
-		return "login";
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:login.jsp");
+		return mav;
+		
 	}
 
 }
