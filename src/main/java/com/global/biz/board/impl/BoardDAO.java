@@ -40,6 +40,13 @@ public class BoardDAO {
 	// 목록 가져옴
 	private final String BOARD_LIST="select * from board order by seq desc";
 	
+	// 제목검색
+	private final String BOARD_LIST_T =
+			"select * from board where title like '%' || ? || '%'  order by seq desc" ;
+	// 내용검색
+	private final String BOARD_LIST_C =
+			"select * from board where content like '%' || ? || '%'  order by seq desc";
+	
 	
 	// CRUD 기능의 메소드 구현
 	// 글 등록
@@ -133,15 +140,18 @@ public class BoardDAO {
 		
 		System.out.println("===> JDBC로 getBoardList() 기능 처리 ..");
 		List<BoardVO> boardList = new ArrayList<BoardVO>();
-		
 		try {
-			
 			conn = JDBCUtil.getConnection();
-			stmt = conn.prepareStatement(BOARD_LIST);
-			rs = stmt.executeQuery();
+			if(vo.getSearchCondition().equals("TITLE")) {
+				stmt =conn.prepareStatement(BOARD_LIST_T);
+			}else if(vo.getSearchCondition().equals("CONTENT")) {
+				stmt =conn.prepareStatement(BOARD_LIST_C);
+			}
 			
-			while(rs.next()) {
-				
+			stmt.setString(1, vo.getSearchKeyword());
+			//stmt = conn.prepareStatement(BOARD_LIST);
+			rs = stmt.executeQuery();
+			while (rs.next()) {
 				BoardVO board = new BoardVO();
 				board.setSeq(rs.getInt("SEQ"));
 				board.setTitle(rs.getString("TITLE"));
@@ -150,16 +160,13 @@ public class BoardDAO {
 				board.setRegDate(rs.getDate("REGDATE"));
 				board.setCnt(rs.getInt("CNT"));
 				boardList.add(board);
-				
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			JDBCUtil.close(rs, stmt, conn);
 		}
-		
 		return boardList;
-			
 	}
 	
 }

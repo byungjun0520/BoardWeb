@@ -1,30 +1,19 @@
 package com.global.view.user;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
+@Controller
+public class LogoutController{
 
-public class LogoutController implements Controller {
-
-	@Override
-	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) {
-		
-		System.out.println("로그 아웃 처리 ............");
-		
-		// 브라우저와 연결된 세션 객체를 강제 종료
-		HttpSession session = request.getSession();
+   @RequestMapping("/logout.do")
+	public String logout(HttpSession session) {
 		session.invalidate();
-		
-		// 화면 네비게이션
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:login.jsp");
-		return mav;
-		
+		return "login.jsp";
 	}
-
+	
+	
 }

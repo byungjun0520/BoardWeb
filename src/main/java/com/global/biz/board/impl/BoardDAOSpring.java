@@ -6,14 +6,19 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+//import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.global.biz.board.BoardVO;
 
 @Repository
 //public class BoardDAOSpring extends JdbcDaoSupport{
-	public class BoardDAOSpring {
+public class BoardDAOSpring {
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	// 어노테이션을 이용하여 jdbcTemplate 타입의 객체를 의존성 주입처리함
+	
 	//SQL 명령문
 	/* private final String BOARD_INSERT=
 			"insert into board(seq, title, writer, content)"
@@ -23,10 +28,14 @@ import com.global.biz.board.BoardVO;
 	private final String BOARD_DELETE="delete board where seq=?";
 	private final String BOARD_GET="select * from board where seq=?";
 	private final String BOARD_LIST="select * from board order by seq desc";
+	// 제목검색
+		private final String BOARD_LIST_T =
+				"select * from board where title like '%' || ? || '%'  order by seq desc" ;
+		// 내용검색
+		private final String BOARD_LIST_C =
+				"select * from board where content like '%' || ? || '%'  order by seq desc";
+		
 	
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	// 어노테이션을 이용하여 jdbcTemplate 타입의 객체를 의존성 주입처리함
 	
 	/*
 	 * public void setSuperDataSource(DataSource dataSource) {
@@ -68,8 +77,16 @@ import com.global.biz.board.BoardVO;
 	// 글 목록 조회
 	public List<BoardVO> getBoardList(BoardVO  vo) {
 		System.out.println("===> Spring JDBC로 getBoardList() 기능처리........  2   ");
+		Object[] args = { vo.getSearchKeyword() };
+		if (vo.getSearchCondition().equals("TITLE")) {			
+			return jdbcTemplate.query(BOARD_LIST_T, args, new BoardRowMapper());
+		} else if (vo.getSearchCondition().equals("CONTENT")) {
+			return jdbcTemplate.query(BOARD_LIST_C, args, new BoardRowMapper());
+		}
+		return null;
+		
 		//return getJdbcTemplate().query(BOARD_LIST, new BoardRowMapper());
-		return jdbcTemplate.query(BOARD_LIST, new BoardRowMapper());
+		//return jdbcTemplate.query(BOARD_LIST, new BoardRowMapper());
 		
 	}
 	
