@@ -1,6 +1,9 @@
 package com.global.view.board;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.global.biz.board.BoardListVO;
 import com.global.biz.board.BoardService;
 import com.global.biz.board.BoardVO;
 import com.global.biz.board.impl.BoardDAO;
@@ -24,9 +30,41 @@ public class BoardController {
 	private BoardService boardService;
 	
 	
+	@RequestMapping("/dataTransform.do")
+	@ResponseBody
+	public BoardListVO dataTransform(BoardVO vo) {
+		vo.setSearchCondition("TITLE");
+		vo.setSearchKeyword("");
+		List<BoardVO> boardList = boardService.getBoardList(vo);
+		BoardListVO boardListVO = new BoardListVO();
+		boardListVO.setBoardList(boardList);
+		return boardListVO;
+		
+	}
+	
+	
+	/* Json
+	public List<BoardVO> dataTransform(BoardVO vo) {
+		vo.setSearchCondition("TITLE");
+		vo.setSearchKeyword("");
+		List<BoardVO> boardList = boardService.getBoardList(vo);
+		return boardList;
+		
+		
+	}*/
+	
+	
+	
+	
+	
 	// 글 등록
 	@RequestMapping(value = "/insertBoard.do")
-	public String insertBoard(BoardVO vo) {
+	public String insertBoard(BoardVO vo) throws IOException{
+		MultipartFile uploadFile = vo.getUploadFile();
+		if(!uploadFile.isEmpty()) {
+		String filename = uploadFile.getOriginalFilename();
+		uploadFile.transferTo(new File("C:/upload/"+filename));			
+		}
 		boardService.insertBoard(vo);
 		return "getBoardList.do";
 	}
